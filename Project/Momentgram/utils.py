@@ -61,3 +61,14 @@ def getPost(id):
         return Post.objects.filter(id=id)[0]
     else:
         return None
+
+def withWhomChats(username):
+
+    users = set()
+
+
+
+
+
+
+    return list(users)
