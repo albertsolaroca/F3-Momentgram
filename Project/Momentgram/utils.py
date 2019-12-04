@@ -1,4 +1,4 @@
-from .models import Post, Profile, Follow, Message, Comment
+from .models import Post, Profile, Follow, Message, Comment, Like
 from django.contrib.auth.models import User
 from django.db.models import Q
 
