@@ -61,11 +61,16 @@ def getPost(id):
     else:
         return None
 
+def getTimeline(username):
+    posts = []
+    if getFollowing(username):
+        for user in getFollowing(username):
+            for post in getUserPosts(user):
+                posts.append(post)
+        return sorted(posts, key=lambda x: x.date, reverse=True)
+    else:
+        return posts
 
-def withWhomChats(username):
-
-    users = set()
-    return list(users)
 
 def sendMessage(sender,reciever,message):
     Message.objects.create(sender=sender, reciever = reciever, text = message)
@@ -73,4 +78,46 @@ def sendMessage(sender,reciever,message):
 
 def getChat(user1, user2):
     return Message.objects.filter(Q(sender=user1, receiver=user2)|Q(sender=user2, receiver=user1))
+
+def getUsersSorted(user, pattern):
+    toReturn = []
+    users = User.objects.filter(username__icontains=pattern)
+    followers = getFollowers(user)
+    following = getFollowing(user)
+
+    for u in users:
+        if u in followers and u in following:
+            toReturn.append(u)
+            users = users.exclude(username=u)
+
+    for u in users:
+        if u in following:
+            toReturn.append(u)
+            users = users.exclude(username=u)
+
+    for u in users:
+        if u in followers:
+            toReturn.append(u)
+            users = users.exclude(username=u)
+
+    for u in users:
+        toReturn.append(u)
+
+    return toReturn
+
+#Given a user, it gets all the messages sent and received by him, orders them and
+#returns the last message that we have with the other user
+def getChatPreviews(user):
+    if Message.objects.filter(Q(sender=user) | Q(receiver=user)):
+        sorted_messages = Message.objects.filter(Q(sender=user) | Q(receiver=user)).order_by('date')
+        users = set()
+        message_previews = []
+        for message in sorted_messages:
+            other_user = message.sender if user == message.receiver else message.receiver
+            if other_user not in users:
+                message_previews.append((other_user,message))
+                users.add(user)
+        return message_previews
+    else:
+        return None
 
