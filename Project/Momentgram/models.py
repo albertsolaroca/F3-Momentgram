@@ -58,3 +58,8 @@ class Message(models.Model):
     class Meta:
         ordering = ('date',)
 
+class Like(models.Model):
+    user = models.ForeingKey(User, on_delete=models.CASCADE, related_name="user_giving_like")
+    post = models.ForeingKey(Post, on_delete=models.CASCADE, related_name="post_liked")
+    date = models.DateTimeField(default=timezone.now)
+
