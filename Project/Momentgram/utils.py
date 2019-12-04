@@ -125,3 +125,10 @@ def getChatPreviews(user):
 def getPostComments(post):
     return Comment.object.filter(post=post)
 
+#Unlikes a like for a post that a certain user has given like to
+def unlike(user,post):
+    if Like.objects.filter(user=user,post=post).exists():
+        Like.objects.filter(user=user, post=post).delete()
+        return True
+    else:
+        return False
