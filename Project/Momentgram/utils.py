@@ -125,3 +125,7 @@ def getChatPreviews(user):
 def getPostComments(post):
     return Comment.object.filter(post=post)
 
+#Creates an univocal link between user and a post called like
+def createLike(user,post):
+    Like.objects.create(user=user, post=post)
+    return True
