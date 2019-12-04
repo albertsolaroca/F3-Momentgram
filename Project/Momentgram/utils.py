@@ -1,4 +1,4 @@
-from .models import Post, Profile, Follow, Message
+from .models import Post, Profile, Follow, Message, Comment
 from django.contrib.auth.models import User
 from django.db.models import Q
 
@@ -120,4 +120,8 @@ def getChatPreviews(user):
         return message_previews
     else:
         return None
+
+#Given a post returns the list of comments associated with it ordered by date
+def getPostComments(post):
+    return Comment.object.filter(post=post)
 
