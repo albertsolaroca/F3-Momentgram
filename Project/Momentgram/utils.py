@@ -125,3 +125,10 @@ def getChatPreviews(user):
 def getPostComments(post):
     return Comment.object.filter(post=post)
 
+#Given a certain post returns the number of likes
+def getNumberOfLikes(post):
+    if Like.object.filter(post=post).exists():
+        return len(Like.object.filter(post=post))
+    else:
+        return 0
+
