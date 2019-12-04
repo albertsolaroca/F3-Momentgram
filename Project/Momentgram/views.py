@@ -15,7 +15,7 @@ from .utils import *
 
 def index(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("publish"))
+        return HttpResponseRedirect(reverse("timeline"))
     return render(request, 'Momentgram/init.html')
 
 @login_required
@@ -54,7 +54,7 @@ def register(request):
 
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return HttpResponseRedirect(reverse("publish"))
+            return HttpResponseRedirect(reverse("timeline"))
         return render(request, 'Momentgram/register.html')
 
 def signIn(request):
@@ -68,7 +68,7 @@ def signIn(request):
                 next = request.session['next']
                 request.session['next'] = None
                 return redirect(next)
-            return HttpResponseRedirect(reverse("publish"))
+            return HttpResponseRedirect(reverse("timeline"))
         else:
             return HttpResponse("Failed. Username or password not correct")
 
@@ -118,17 +118,17 @@ def show_profile(request, username, index = 1):
     maxPage = p.num_pages
     page = index
     context = {
-        'followed' : followed,
-        'yourProfile' : yourProfile,
-        'username' : user.username,
-        'n_posts' : len(getUserPosts(user)),
-        'n_followed' : len(getFollowing(user)),
-        'n_followers' : len(getFollowers(user)),
-        'description' : (Profile.objects.filter(user=user)[0]).bio,
-        'fullName' : user.first_name + " " + user.last_name,
-        'posts' : p.page(page),
-        'maxPage' : [ x+1 for x in range(maxPage)],
-        'index' : index
+         'followed' : followed,
+         'yourProfile' : yourProfile,
+         'username' : user.username,
+         'n_posts' : len(getUserPosts(user)),
+         'n_followed' : len(getFollowing(user)),
+         'n_followers' : len(getFollowers(user)),
+         'description' : (Profile.objects.filter(user=user)[0]).bio,
+         'fullName' : user.first_name + " " + user.last_name,
+         'posts' : p.page(page),
+         'maxPage' : [ x+1 for x in range(maxPage)],
+         'index' : index
     }
     return render(request, 'Momentgram/profile.html', context)
 
@@ -195,23 +195,76 @@ def manage_friend(request, username, index = 1):
         return HttpResponse("No such user")
 
 
-def search_users(request, searched ="", index = 1):
-    if request.method == 'GET':
-        pattern = request.GET.get('searched')
-        if not pattern:
-            pattern = searched
-
-    users = [x.username for x in User.objects.filter(username__contains = pattern)]
+def search_users(request, isProfile='0', searched ="", index = 1):
+    if 'searched' in request.GET:
+        searched = request.GET.get('searched')
+    sorted = getUsersSorted(request.user, searched)
+    users = [x.username for x in sorted if x.username != request.user.username]
     p = Paginator(users, 9)
     maxPage = p.num_pages
     page = index
-    context = {
-        'users' : p.page(page),
-        'maxPage' : [ x+1 for x in range(maxPage)],
-        'searched' : pattern
-    }
+    if isProfile=='1':
+        context = {
+            'users' : p.page(page),
+            'maxPage' : [ x+1 for x in range(maxPage)],
+            'searched' : searched,
+            'isProfile' : isProfile
+        }
+    else:
+        context = {
+            'users' : p.page(page),
+            'maxPage' : [ x+1 for x in range(maxPage)],
+            'searched' : searched
+        }
+
     return render(request, 'Momentgram/searchUsers.html', context)
 
+def timeline(request, index = 1):
+    if request.method == "GET":
+        posts = getTimeline(request.user)
+        p = Paginator(posts, 9)
+        print(p.num_pages)
+        maxPage = p.num_pages
+        context = {
+            'posts' : p.page(index),
+            'maxPage' : [ x+1 for x in range(maxPage)],
+            'index' : index
+        }
+        return render(request, 'Momentgram/timeline.html', context)
+
+def chat( request, username=""):
+    if username:
+        if( request.method == 'GET' ):
+            user = getUser(username)
+            messages = getChat(request.user, user)
+            if(len(messages)>30):
+                start = len(messages) - 30
+            else:
+                start = 0
+
+            context = {
+                'username' : username,
+                'messages' : messages[start:]
+            }
+            return render(request,'Momentgram/chat.html', context)
+        if ( request.method == 'POST' ):
+            if 'message' in request.POST :
+                        message = request.POST.get('message')
+            user = getUser(username)
+            if message:
+                sendMessage(request.user,user,message)
+            messages = getChat(request.user, user)
+            if(len(messages)>30):
+                start = len(messages) - 30
+            else:
+                start = 0
+            context = {
+                'username' : username,
+                'messages' : messages[start:]
+            }
+            return render( request, 'Momentgram/chat.html', context)
+    else:
+        return HttpResponse("No such user")
 
 
 
