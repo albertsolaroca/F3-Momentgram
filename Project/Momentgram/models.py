@@ -58,3 +58,16 @@ class Message(models.Model):
     class Meta:
         ordering = ('date',)
 
+
+class Comment(models.Model):
+    comment = models.TextField(max_length=500, blank=True)
+    date = models.DateTimeField(default=timezone.now)
+    post = models.ForeingKey(Post, on_delete=models.cascade)
+    user = models.ForeignKey(User, on_delete=models.cascade)
+
+    def __str__(self):
+        return self.comment
+
+    class Meta:
+        ordering = ('date',)
+
