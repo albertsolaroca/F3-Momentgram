@@ -123,5 +123,9 @@ def getChatPreviews(user):
 
 #Given a post returns the list of comments associated with it ordered by date
 def getPostComments(post):
-    return Comment.object.filter(post=post)
+    return Comment.objects.filter(post=post)
+
+#Given a user and post returns True if that user can give a like to that certain Post
+def isLikeable(user,post):
+    return not(Like.objects.filter(user=user,post=post).exists())
 
