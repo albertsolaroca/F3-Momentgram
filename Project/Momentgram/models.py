@@ -38,7 +38,6 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images/')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
-    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.description
