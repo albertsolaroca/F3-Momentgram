@@ -136,3 +136,7 @@ def getNumberOfLikes(post):
     else:
         return 0
 
+#Creates a comment linked to a user and a post
+def createComment(user,post,comment):
+    Comment.objects.create(user=user,post=post,comment=comment)
+    return True
