@@ -20,9 +20,9 @@
         }
         .head {
             width: 100%;
-            background-color: #c4c4c4;
+            background-color: #3897f0;
             height: 5%;
-            border: 1px solid grey;
+            border: 1px solid #2c63a8;
             text-align: center;
             font-size: 20px;
             padding: 10px 0;
@@ -36,20 +36,22 @@
             overflow-y: auto;
             background-color: white;
             height: 80%;
-            border: 1px solid grey;
+            border: 1px solid #2c63a8;
             text-align: center;
             font-size: 20px;
             font-family: Lucida Console;
+
         }
         .send {
             width: 100%;
             min-height: 50px;
             background-color: white;
             height: 15%;
-            border: 1px solid grey;
+            border: 1px solid #2c63a8;
             text-align: center;
             font-family: Lucida Console;
             border-radius: 0 0 5px 5px;
+            border-top: 0;
         }
         .send-button{
             color: #3897f0;
@@ -57,12 +59,13 @@
         }
         .message-input{
             width: 80%;
-            border: 1px solid grey;
+            border: 1px solid #2c63a8;
             border-radius: 5px;
             height: 90%;
             padding: 9px;
             margin: 5px;
             border-radius: 3px;
+
         }
         .messageContainer {
             width: 100%;
@@ -78,10 +81,10 @@
             box-shadow: 2px 2px grey;
             padding: 5px;
             overflow-x: auto;
-            background-color: dimgrey;
+            background-color: whitesmoke;
             float: right;
             width: 46%;
-            color: lawngreen;
+            color: #323232;
             border-radius: 3px;
         }
         .receivedMessage {
@@ -91,7 +94,7 @@
             width: 60%;
             background-color: lightgrey;
             position: relative;
-            color: #3897f0;
+            color: #323232;
             max-width: 400px;
             border-radius: 3px;
         }
@@ -139,13 +142,5 @@
         var objDiv = document.getElementById("messages");
         objDiv.scrollTop = objDiv.scrollHeight;
     }
-    $('.message-input').onkeyup(function(){
-        if(this.innerText.length != 0){
-            $('.message-input').setProperty("disabled","");
-        }
-        else {
-            $('.message-input').setProperty("disabled","disabled");
-        }
-    });
 </script>
 {% endblock %}
