@@ -42,6 +42,80 @@
         img:hover {
             box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
         }
+
+
+        .button-like {
+          border: 2px solid #8a8a8a;
+          background-color: transparent;
+          text-decoration: none;
+          padding: 1rem;
+          position: relative;
+          vertical-align: middle;
+          text-align: center;
+          display: inline-block;
+          border-radius: 3rem;
+          color: #8a8a8a;
+          transition: all ease 0.4s;
+        }
+
+        .button-like span {
+          margin-left: 0.5rem;
+        }
+
+        .button-like .fa,
+        .button-like span {
+          transition: all ease 0.4s;
+        }
+
+        .button-like:focus {
+          background-color: transparent;
+        }
+
+        .button-like:focus .fa,
+        .button-like:focus span {
+          color: #8a8a8a;
+        }
+
+        .button-like:hover {
+          border-color: #cc4b37;
+          background-color: transparent;
+        }
+
+        .button-like:hover .fa,
+        .button-like:hover span {
+          color: #cc4b37;
+        }
+
+        .liked {
+          background-color: #cc4b37;
+          border-color: #cc4b37;
+        }
+
+        .liked .fa,
+        .liked span {
+          color: #fefefe;
+        }
+
+        .liked:focus {
+          background-color: #cc4b37;
+        }
+
+        .liked:focus .fa,
+        .liked:focus span {
+          color: #fefefe;
+        }
+
+        .liked:hover {
+          background-color: #cc4b37;
+          border-color: #cc4b37;
+        }
+
+        .liked:hover .fa,
+        .liked:hover span {
+          color: #fefefe;
+        }
+
+
     </style>
 </head>
 <body style="background-color: whitesmoke;">
@@ -63,6 +137,15 @@
                     <img style="width: 100%; border-radius: 8px;" src="/media/{{post.image}}"/>
                     <p>{{post.description}}</p>
                     <p style="font-size: 10px">{{post.date}}</p>
+
+
+                    <button class="button button-like">
+                      <i onclick="myFunction(this)" class="fa fa-heart"></i>
+                      <span>Like</span>
+                    </button>
+
+
+
                 </div>
                 <div class="col-1" style=""></div>
             </div>
@@ -85,15 +168,12 @@
 
 {% endblock %}
 </body>
+
 <script>
-    if (false) { // case user same as profile page owner
-        $("#follow-btn").attr("style","display:none");
-        // $("#follow-btn").attr("class","btn btn-secondary");
-        // document.getElementById("follow-btn").innerHTML = '+ Add Post';
+    function myFunction(x) {
+      x.toggleClass("liked");
     }
-    if (false) { // case user already followed
-        $("#follow-btn").attr("class","btn btn-light");
-        document.getElementById("follow-btn").innerHTML = 'Unfollow';
-    }
+
+    
 </script>
 </html>

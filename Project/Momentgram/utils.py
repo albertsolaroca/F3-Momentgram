@@ -1,4 +1,4 @@
-from .models import Post, Profile, Follow, Message
+from .models import Post, Profile, Follow, Message, Comment, Like
 from django.contrib.auth.models import User
 from django.db.models import Q
 
@@ -72,8 +72,8 @@ def getTimeline(username):
         return posts
 
 
-def sendMessage(sender,receiver,message):
-    Message.objects.create(sender=sender, receiver = receiver, text = message)
+def sendMessage(sender,reciever,message):
+    Message.objects.create(sender=sender, reciever = reciever, text = message)
     return True
 
 def getChat(user1, user2):
@@ -121,3 +121,22 @@ def getChatPreviews(user):
     else:
         return None
 
+#Given a post returns the list of comments associated with it ordered by date
+def getPostComments(post):
+    return Comment.objects.filter(post=post)
+
+#Given a user and post returns True if that user can give a like to that certain Post
+def isLikeable(user,post):
+    return not(Like.objects.filter(user=user,post=post).exists())
+
+#Given a certain post returns the number of likes
+def getNumberOfLikes(post):
+    if Like.object.filter(post=post).exists():
+        return len(Like.object.filter(post=post))
+    else:
+        return 0
+
+#Creates a comment linked to a user and a post
+def createComment(user,post,comment):
+    Comment.objects.create(user=user,post=post,comment=comment)
+    return True

@@ -57,6 +57,9 @@
         <p id="coment" style="font-size: 12px">{{ description }}</p>
         <p id="userName" style="font-size: 12px">{{ username }}</p>
         {% if yourProfile%}
+                <a href="{% url 'editProfile' %}">
+                    <button id="follow-btn" type="button" class="btn btn-primary" >Edit Profile</button>
+                </a>
         {% else %}
             {% if followed%}
                 <a href="{% url 'manage_complete' username index %}">

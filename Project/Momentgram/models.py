@@ -7,6 +7,7 @@ from django.utils import timezone
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/')
     bio = models.TextField(max_length=500, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     web = models.TextField(max_length=500, blank=True)
@@ -37,7 +38,6 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images/')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
-    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.description
@@ -57,3 +57,21 @@ class Message(models.Model):
 
     class Meta:
         ordering = ('date',)
+
+class Like(models.Model):
+    user = models.ForeingKey(User, on_delete=models.CASCADE, related_name="user_giving_like")
+    post = models.ForeingKey(Post, on_delete=models.CASCADE, related_name="post_liked")
+    date = models.DateTimeField(default=timezone.now)
+
+class Comment(models.Model):
+    comment = models.TextField(max_length=500, blank=True)
+    date = models.DateTimeField(default=timezone.now)
+    post = models.ForeingKey(Post, on_delete=models.cascade)
+    user = models.ForeignKey(User, on_delete=models.cascade)
+
+    def __str__(self):
+        return self.comment
+
+    class Meta:
+        ordering = ('date',)
+
