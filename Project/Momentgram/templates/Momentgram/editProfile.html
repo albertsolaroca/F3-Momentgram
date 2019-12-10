@@ -48,31 +48,72 @@
 {% extends 'Momentgram/base.html' %}
 {% block content %}
 {% load static %}
-<div class="login-container" style="margin-top: 10px; border-radius: 10px;">
-        
-     <form  method="post" >
-        {% csrf_token %}
-      
-        <div class="container" >
-
-            <label class="input-label">Change Your Username</label>
-            
-            <input class="input" type="text" placeholder="Username" name="username" >
-            
-            <label class="input-label">Change your Name</label>
-            <input class="input" type="text" placeholder="Name" name="name" >
+<div class="container">
+    <h1>Edit Profile</h1>
+    <hr>
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="text-center">
+          <img id="image" class="profile_image" src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Bearded_Man-17-512.png"/>
+          <h6>Upload a different photo...</h6>
           
-
-            <label class="input-label">Change Your Profile Image</label>
-			<input style="font-size: 10px;" type="file" accept="image/*" name="image" />
-				
-            <button id="login"  type="submit">Save</button>
-        
+          <input type="file" class="form-control">
         </div>
+      </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">         
+        <h3>Personal info</h3>
+        
+        <form class="form-horizontal" role="form" method="post" >
+            {% csrf_token %}
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-md-3 control-label">Username:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" value="">
+            </div>
+          </div>
 
-    
-    </form>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" value="">
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <button class="btn btn-primary"  type="submit">Save Changes </button>
+             
+              <span></span>
+              <button type="reset" class="btn btn-default"> Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+<hr>
 </div>
 {% endblock %}
 
