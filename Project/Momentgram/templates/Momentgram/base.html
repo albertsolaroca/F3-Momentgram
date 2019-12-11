@@ -79,7 +79,7 @@
             text-align: center;
             color: #3897f0;
             font-family: 'URW Chancery L', cursive;
-            font-size: 14px;
+            font-size: 18px;
             font-style: italic;
             color: #ffffff;
         }
@@ -184,8 +184,8 @@
     </style>
 </head>
 <body style="background-color: whitesmoke;">
-    <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-        <ul class="navbar-nav"  style="margin-right:auto;">
+    <nav class="navbar navbar-expand-sm bg-primary navbar-dark" style="font-size: 18px;">
+        <ul class="navbar-nav" style="margin-right:auto;">
             <li class="nav-item active">
                 <!-- A inici -->
                 <a class="nav-link title" href="{% url 'timeline' %}">MOMENTGRAM</a>
@@ -203,10 +203,8 @@
             <li class="search-container" >
                 <form action="{% url 'search_users' isProfile=0 %}" method="GET" style="border: none">
                   {% csrf_token %}
-                    <input type="text" placeholder="Search Friends" name="searched" style="background: rgba(255,255,255,.5); width: auto; padding: 6px; font-size: 10px; border:none; ">
-                
-                    <button  type="submit" style="margin: 0;"> <i class="fa fa-group" ></i> </button>
-                    
+                    <input type="text" placeholder="Search friends to chat" name="searched" style="background: rgba(255,255,255,.5); width: auto; padding: 6px; font-size: 10px; border:none; ">
+                    <button  type="submit" style="margin: 0;"> <i class="fa fa-group" style="font-size: 14px;"></i> </button>
                 </form>
             </li>
         </ul>
@@ -223,7 +221,7 @@
             <li class="search-container" >
                 <form action="{% url 'search_users' isProfile=1 %}" method="GET" style="border: none">
                   {% csrf_token %}
-                    <input type="text" placeholder="Search" name="searched" style="background: rgba(255,255,255,.5); width: auto; padding: 6px; font-size: 10px; border:none; ">
+                    <input type="text" placeholder="Search people..." name="searched" style="background: rgba(255,255,255,.5); width: auto; padding: 6px; font-size: 10px; border:none; ">
                 
                     <button  type="submit" style="margin: 0;"> <i class="fa fa-search"></i> </button>
                     
@@ -231,8 +229,6 @@
             </li>
         </ul>
     </nav>
-
-
     {% block content %}
     {% endblock content %}
 </body>

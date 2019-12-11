@@ -5,7 +5,7 @@
 <style>
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        max-width: 200px;
+        max-width: 300px;
         margin: auto;
         text-align: center;
         font-family: arial;
@@ -20,8 +20,9 @@
 <div >    
     <div style="margin-bottom: 10px;">
   	{% if users%}
+        <div class="row" style="padding-left:30px; padding-right:30px;">
      {% for user in users %}
-        <div class="login-container" style="margin-top: 20px; padding:10px;">
+        <div class="login-container col-4" style="margin-top: 20px; padding:10px;">
             {% if isProfile %}
             <div class="card">
                 <img src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg" alt="John" style="width:100%">
@@ -52,7 +53,8 @@
             </div>-->
         </div>
       {% endfor %}
-    {% else %}
+        </div>
+        {% else %}
 
         <div class="login-container"  style="margin-top: 20px;">
             <h1 style="margin-top: 2%; margin-left: 20%; color: rgba(0, 0, 0, 0.6); font-size: 30px;">No matched users.</h1>
