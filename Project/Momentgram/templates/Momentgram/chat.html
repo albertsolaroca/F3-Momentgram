@@ -56,16 +56,16 @@
         .send-button{
             color: #3897f0;
             height: 35px;
+            width: 20%;
         }
         .message-input{
-            width: 80%;
+            width: 70% !important;
             border: 1px solid #2c63a8;
             border-radius: 5px;
             height: 90%;
             padding: 9px;
             margin: 5px;
             border-radius: 3px;
-
         }
         .messageContainer {
             width: 100%;
@@ -105,7 +105,7 @@
 {% block content %}
 
 {% load static %}
-<div style="background-color: white;">
+<div>
     <div class="chat">
         <div class="head">
            Chat with {{username}}
