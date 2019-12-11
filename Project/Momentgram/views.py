@@ -204,7 +204,7 @@ def search_users(request, isProfile='0', searched ="", index = 1):
     if 'searched' in request.GET:
         searched = request.GET.get('searched')
     sorted = getUsersSorted(request.user, searched)
-    users = [x.username for x in sorted if x.username != request.user.username]
+    users = [x for x in sorted if x.username != request.user.username]
     p = Paginator(users, 9)
     maxPage = p.num_pages
     page = index
