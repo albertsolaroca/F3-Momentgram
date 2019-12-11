@@ -26,11 +26,16 @@ def entry(request):
 def view_post(request, id=None):
     if id and getPost(id):
         post = getPost(id)
+        if request.method == 'POST':
+                comment = request.POST.get('comment')
+                createComment(request.user,post,comment)
+        comments = getPostComments(post)
         context ={
             'username' : post.user.username,
             'description' : post.description,
             'image_name' : post.image,
-            'date' : post.date
+            'date' : post.date,
+            'comments' : comments
         }
         return render(request, 'Momentgram/post_visualization.html', context)
     return HttpResponse("No such post")
@@ -194,12 +199,12 @@ def manage_friend(request, username, index = 1):
     else:
         return HttpResponse("No such user")
 
-
+@login_required
 def search_users(request, isProfile='0', searched ="", index = 1):
     if 'searched' in request.GET:
         searched = request.GET.get('searched')
     sorted = getUsersSorted(request.user, searched)
-    users = [x.username for x in sorted if x.username != request.user.username]
+    users = [x for x in sorted if x.username != request.user.username]
     p = Paginator(users, 9)
     maxPage = p.num_pages
     page = index
@@ -219,6 +224,7 @@ def search_users(request, isProfile='0', searched ="", index = 1):
 
     return render(request, 'Momentgram/searchUsers.html', context)
 
+@login_required
 def timeline(request, index = 1):
     if request.method == "GET":
         posts = getTimeline(request.user)
@@ -232,6 +238,7 @@ def timeline(request, index = 1):
         }
         return render(request, 'Momentgram/timeline.html', context)
 
+@login_required
 def chat( request, username=""):
     if username:
         if( request.method == 'GET' ):
@@ -265,6 +272,7 @@ def chat( request, username=""):
             return render( request, 'Momentgram/chat.html', context)
     else:
         return HttpResponse("No such user")
+
 
 
 

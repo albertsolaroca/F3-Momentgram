@@ -59,15 +59,15 @@ class Message(models.Model):
         ordering = ('date',)
 
 class Like(models.Model):
-    user = models.ForeingKey(User, on_delete=models.CASCADE, related_name="user_giving_like")
-    post = models.ForeingKey(Post, on_delete=models.CASCADE, related_name="post_liked")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_giving_like")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_liked")
     date = models.DateTimeField(default=timezone.now)
 
 class Comment(models.Model):
     comment = models.TextField(max_length=500, blank=True)
     date = models.DateTimeField(default=timezone.now)
-    post = models.ForeingKey(Post, on_delete=models.cascade)
-    user = models.ForeignKey(User, on_delete=models.cascade)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comment
