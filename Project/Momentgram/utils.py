@@ -81,7 +81,7 @@ def getChat(user1, user2):
 
 def getUsersSorted(user, pattern):
     toReturn = []
-    users = User.objects.filter(username__icontains=pattern)
+    users = User.objects.filter(Q(username__icontains=pattern)|Q(first_name__icontains=pattern))
     followers = getFollowers(user)
     following = getFollowing(user)
 
