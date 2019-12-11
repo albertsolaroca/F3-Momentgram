@@ -27,8 +27,17 @@ def view_post(request, id=None):
     if id and getPost(id):
         post = getPost(id)
         if request.method == 'POST':
-                comment = request.POST.get('comment')
-                createComment(request.user,post,comment)
+            comment = request.POST.get('comment')
+            createComment(request.user,post,comment)
+            comments = getPostComments(post)
+            context ={
+                'username' : post.user.username,
+                'description' : post.description,
+                'image_name' : post.image,
+                'date' : post.date,
+                'comments' : comments
+            }
+            return redirect('view_post', id)
         comments = getPostComments(post)
         context ={
             'username' : post.user.username,
@@ -102,7 +111,7 @@ def publish_post(request):
             'image_name' : post.image,
             'date' : post.date
         }
-        return render(request, 'Momentgram/post_visualization.html', context)
+        return redirect('view_post', post.id)
     if request.method == 'GET':
         return render(request, 'Momentgram/post.html')
 
@@ -195,7 +204,7 @@ def manage_friend(request, username, index = 1):
                     'maxPage' : [ x+1 for x in range(maxPage)],
                     'index' : index
                 }
-        return render(request, 'Momentgram/profile.html', context)
+        return redirect('show_profile_complete', username, index)
     else:
         return HttpResponse("No such user")
 
@@ -269,7 +278,7 @@ def chat( request, username=""):
                 'username' : username,
                 'messages' : messages[start:]
             }
-            return render( request, 'Momentgram/chat.html', context)
+            return redirect( 'chat', user.username)
     else:
         return HttpResponse("No such user")
 
