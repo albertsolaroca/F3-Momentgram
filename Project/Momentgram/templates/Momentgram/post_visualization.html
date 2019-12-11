@@ -2,10 +2,16 @@
 {% block content %}
 
 {% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <div>
-     <div class="row" style="padding: 10px 150px">
+     <!--<div class="row" style="padding: 10px 150px">
         <div class="col-8" style="background-color: white; padding: 10px;">
-
             <img id="image" style=" max-width: 100%;" src="/media/{{image_name}}/"/>
         </div>
         <div class="col-4" style="background-color: white; padding: 20px">
@@ -13,7 +19,157 @@
             <p id="coment" style="font-size: 12px">{{ description }}</p>
             <p id="date" style="font-size: 10px">{{ date }}</p>
         </div>
+    </div>-->
+    <div class="row" style="padding: 10px 150px">
+        <div class="col-6" style="background-color: white; padding: 10px;">
+            <img id="image" style=" max-width: 100%;" src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg"/>
+        </div>
+        <div class="col-6" style="background-color: white; padding: 20px;">
+            <p id="userName" style="font-size: 14px; font-weight: bold">Jordi</p>
+            <p id="coment" style="font-size: 12px">sagdfkh</p>
+            <p id="date" style="font-size: 10px">ahir</p>
+            <div class="comments" style="max-height: 400px; width: 500px; overflow-x: hidden">
+                <div>
+                    <div class="row" style="width:90%;">
+                        <div class="col-12">
+                            <h2 class="page-header">Comments</h2>
+                            <section class="comment-list">
+                                <!-- First Comment -->
+                                {% for comment in comments %}
+                                <article class="row">
+                                    <div class="col-md-2 col-sm-2 hidden-xs">
+                                        <figure class="thumbnail">
+                                            <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+                                        </figure>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10">
+                                        <div class="panel panel-default arrow left">
+                                            <div class="panel-body">
+                                                <header class="text-left">
+                                                    <div class="comment-user"><i class="fa fa-user"></i> {{comment.user.name}}</div>
+                                                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> {{comment.date}}</time>
+                                                </header>
+                                                <div class="comment-post">
+                                                    <p>
+                                                        {{comment.content}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                {% endfor %}
+                            </section>
+                            <div class="send">
+                                <form action="" method="POST" style="border: none" class="send">
+                                    {% csrf_token %}
+                                    <input type="text" placeholder="Type comment" name="comment" class="message-input">
+                                    <button type="submit" class="btn btn-primary send-button" disabled="disabled">Send</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
+<script>
+    $(document).ready(function(){
+        let inputs = document.querySelectorAll('.message-input'),
+            knapp = document.querySelector('.send-button')
+        knapp.disabled = true
+        for (i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('input',() => {
+                let values = []
+                inputs.forEach(v => values.push(v.value))
+                knapp.disabled = values.includes('')
+            })
+        }
+    });
+</script>
+<style>
+    .comments {
+        height: auto;
+        overflow-x: auto;
+    }
+    /*font Awesome http://fontawesome.io*/
+    @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+    /*Comment List styles*/
+    .comment-list .row {
+        margin-bottom: 0px;
+    }
+    .comment-list .panel .panel-heading {
+        padding: 4px 15px;
+        position: absolute;
+        border:none;
+        /*Panel-heading border radius*/
+        border-top-right-radius:0px;
+        top: 1px;
+    }
+    .comment-list .panel .panel-heading.right {
+        border-right-width: 0px;
+        /*Panel-heading border radius*/
+        border-top-left-radius:0px;
+        right: 16px;
+    }
+    .comment-list .panel .panel-heading .panel-body {
+        padding-top: 6px;
+    }
+    .comment-list figcaption {
+        /*For wrapping text in thumbnail*/
+        word-wrap: break-word;
+    }
+    /* Portrait tablets and medium desktops */
+    @media (min-width: 768px) {
+        .comment-list .arrow:after, .comment-list .arrow:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent;
+        }
+        .comment-list .panel.arrow.left:after, .comment-list .panel.arrow.left:before {
+            border-left: 0;
+        }
+        /*****Left Arrow*****/
+        /*Outline effect style*/
+        .comment-list .panel.arrow.left:before {
+            left: 0px;
+            top: 30px;
+            /*Use boarder color of panel*/
+            border-right-color: inherit;
+            border-width: 16px;
+        }
+        /*Background color effect*/
+        .comment-list .panel.arrow.left:after {
+            left: 1px;
+            top: 31px;
+            /*Change for different outline color*/
+            border-right-color: #FFFFFF;
+            border-width: 15px;
+        }
+        /*****Right Arrow*****/
+        /*Outline effect style*/
+        .comment-list .panel.arrow.right:before {
+            right: -16px;
+            top: 30px;
+            /*Use boarder color of panel*/
+            border-left-color: inherit;
+            border-width: 16px;
+        }
+        /*Background color effect*/
+        .comment-list .panel.arrow.right:after {
+            right: -14px;
+            top: 31px;
+            /*Change for different outline color*/
+            border-left-color: #FFFFFF;
+            border-width: 15px;
+        }
+    }
+    .comment-list .comment-post {
+        margin-top: 6px;
+    }
+</style>
 {% endblock %}
