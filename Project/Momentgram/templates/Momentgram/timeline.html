@@ -43,6 +43,11 @@
             box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
         }
 
+        .button:focus {
+            outline: 0px dotted !important;
+        }
+
+
 
         .button-like {
           border: 2px solid #8a8a8a;
@@ -138,11 +143,11 @@
                     <p>{{post.description}}</p>
                     <p style="font-size: 10px">{{post.date}}</p>
 
-
-                    <button class="button button-like">
-                      <i onclick="myFunction(this)" class="fa fa-heart"></i>
-                      <span>Like</span>
+                    <button class="button button-like" onclick="likeFunction(this)" id="button-like">
+                      <i class="fa fa-heart"></i>
+                      <span >Like</span>
                     </button>
+
 
 
 
@@ -166,14 +171,19 @@
     </div>
 </div>
 
+<script>
+    function likeFunction(x) {
+      if (x.classList.contains("liked")){
+        x.classList.remove("liked");
+      }else{
+        x.classList.add("liked");
+
+      }
+    }
+    
+</script>
+
 {% endblock %}
 </body>
 
-<script>
-    function myFunction(x) {
-      x.toggleClass("liked");
-    }
-
-    
-</script>
 </html>
