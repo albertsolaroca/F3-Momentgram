@@ -66,8 +66,8 @@ class Like(models.Model):
 class Comment(models.Model):
     comment = models.TextField(max_length=500, blank=True)
     date = models.DateTimeField(default=timezone.now)
-    post = models.ForeignKey(Post, on_delete=models.cascade)
-    user = models.ForeignKey(User, on_delete=models.cascade)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comment

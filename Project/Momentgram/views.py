@@ -34,7 +34,7 @@ def view_post(request, id=None):
             'username' : post.user.username,
             'description' : post.description,
             'image_name' : post.image,
-            'date' : post.date
+            'date' : post.date,
             'comments' : comments
         }
         return render(request, 'Momentgram/post_visualization.html', context)
