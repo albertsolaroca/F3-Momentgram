@@ -129,6 +129,15 @@ def getPostComments(post):
 def createLike(user,post):
     Like.objects.create(user=user, post=post)
 
+
+#Unlikes a like for a post that a certain user has given like to
+def unlike(user,post):
+    if Like.objects.filter(user=user,post=post).exists():
+        Like.objects.filter(user=user, post=post).delete()
+        return True
+    else:
+        return False
+      
 #Given a user and post returns True if that user can give a like to that certain Post
 def isLikeable(user,post):
     return not(Like.objects.filter(user=user,post=post).exists())
@@ -139,8 +148,9 @@ def getNumberOfLikes(post):
         return len(Like.object.filter(post=post))
     else:
         return 0
-
+      
 #Creates a comment linked to a user and a post
 def createComment(user,post,comment):
     Comment.objects.create(user=user,post=post,comment=comment)
     return True
+
