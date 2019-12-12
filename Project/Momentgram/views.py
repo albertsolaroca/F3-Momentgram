@@ -11,6 +11,7 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.paginator import Paginator
 from .utils import *
+from django.http import JsonResponse
 
 
 def index(request):
@@ -209,6 +210,26 @@ def manage_friend(request, username, index = 1):
         return HttpResponse("No such user")
 
 @login_required
+def manage_like(request, id):
+    post = getPost(id)
+    if post:
+        if isLikeable(request.user,post):
+            liked = True
+            createLike(request.user,post)
+        else:
+            liked = False
+            unlike(request.user,post)
+        nlikes = getNumberOfLikes(post)
+        context ={
+            'nlikes' : nlikes,
+            'liked' : liked
+        }
+
+        return JsonResponse(context)
+    else:
+        return JsonResponse()
+
+@login_required
 def search_users(request, isProfile='0', searched ="", index = 1):
     if 'searched' in request.GET:
         searched = request.GET.get('searched')
@@ -237,15 +258,28 @@ def search_users(request, isProfile='0', searched ="", index = 1):
 def timeline(request, index = 1):
     if request.method == "GET":
         posts = getTimeline(request.user)
+        posts = [(post,getNumberOfLikes(post),isLikeable(request.user,post)) for post in posts]
         p = Paginator(posts, 9)
-        print(p.num_pages)
         maxPage = p.num_pages
         context = {
             'posts' : p.page(index),
             'maxPage' : [ x+1 for x in range(maxPage)],
-            'index' : index
+            'index' : index,
+
         }
         return render(request, 'Momentgram/timeline.html', context)
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        fname = request.POST.get("firstname")
+        lname = request.POST.get("lastname")
+        bio = request.POST.get("bio")
+        pword = request.POST.get("password")
+        image = request.POST.get("image")
+        updateUser(request.user, fname, lname, pword, bio, image)
+        return redirect('show_profile', request.user.username)
+    return render(request, 'Momentgram/editProfile.html')
 
 @login_required
 def chat( request, username=""):

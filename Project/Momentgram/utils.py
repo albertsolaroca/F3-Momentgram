@@ -144,11 +144,23 @@ def isLikeable(user,post):
 
 #Given a certain post returns the number of likes
 def getNumberOfLikes(post):
-    if Like.object.filter(post=post).exists():
-        return len(Like.object.filter(post=post))
+    if Like.objects.filter(post=post).exists():
+        return len(Like.objects.filter(post=post))
     else:
         return 0
 #Creates a comment linked to a user and a post
 def createComment(user,post,comment):
     Comment.objects.create(user=user,post=post,comment=comment)
     return True
+def updateUser(user, firstname=None, lastname=None, password=None, bio=None, image=None):
+    if firstname:
+        user.first_name = firstname
+    if lastname:
+        user.last_name = lastname
+    if password:
+        user.set_password(password)
+    if bio:
+        user.bio = bio
+    if image:
+        user.image = image
+    user.save()
