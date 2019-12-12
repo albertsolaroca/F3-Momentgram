@@ -59,6 +59,7 @@ class Message(models.Model):
         ordering = ('date',)
 
 class Like(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_giving_like")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_liked")
     date = models.DateTimeField(default=timezone.now)
@@ -68,7 +69,6 @@ class Comment(models.Model):
     date = models.DateTimeField(default=timezone.now)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
     def __str__(self):
         return self.comment
 
