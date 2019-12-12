@@ -125,7 +125,6 @@ def getChatPreviews(user):
 def getPostComments(post):
     return Comment.objects.filter(post=post)
 
-
 #Creates an univocal link between user and a post called like
 def createLike(user,post):
     Like.objects.create(user=user, post=post)
@@ -149,8 +148,6 @@ def getNumberOfLikes(post):
         return len(Like.object.filter(post=post))
     else:
         return 0
-
-
 #Creates a comment linked to a user and a post
 def createComment(user,post,comment):
     Comment.objects.create(user=user,post=post,comment=comment)
