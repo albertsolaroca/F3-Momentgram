@@ -81,7 +81,7 @@ def getChat(user1, user2):
 
 def getUsersSorted(user, pattern):
     toReturn = []
-    users = User.objects.filter(username__icontains=pattern)
+    users = User.objects.filter(Q(username__icontains=pattern)|Q(first_name__icontains=pattern))
     followers = getFollowers(user)
     following = getFollowing(user)
 
@@ -125,6 +125,20 @@ def getChatPreviews(user):
 def getPostComments(post):
     return Comment.objects.filter(post=post)
 
+
+#Creates an univocal link between user and a post called like
+def createLike(user,post):
+    Like.objects.create(user=user, post=post)
+
+
+#Unlikes a like for a post that a certain user has given like to
+def unlike(user,post):
+    if Like.objects.filter(user=user,post=post).exists():
+        Like.objects.filter(user=user, post=post).delete()
+        return True
+    else:
+        return False
+      
 #Given a user and post returns True if that user can give a like to that certain Post
 def isLikeable(user,post):
     return not(Like.objects.filter(user=user,post=post).exists())
@@ -135,6 +149,7 @@ def getNumberOfLikes(post):
         return len(Like.object.filter(post=post))
     else:
         return 0
+
 
 #Creates a comment linked to a user and a post
 def createComment(user,post,comment):
