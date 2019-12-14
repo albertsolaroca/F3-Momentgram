@@ -130,7 +130,7 @@
 <div class="posts_placer row" style="padding: 10px 150px">
 
     {% if posts%}
-        {% for post in posts %}
+        {% for post, nlike, isLikeable in posts %}
         <div class="col-12" style="background-color: white; padding: 10px;">
             <div class="posts_placer row" style="padding: 10px 150px">
                 <div class="col-1" style=""></div>
@@ -139,14 +139,25 @@
                         <img style="width: 50px; border-radius: 100%;" src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg"/>
                         <a href="{% url 'show_profile' post.user.username %}">{{ post.user.username }}</a>
                     </p>
+                    <a href="{% url 'view_post' post.id %}">
                     <img style="width: 100%; border-radius: 8px;" src="/media/{{post.image}}"/>
+                    </a>
                     <p>{{post.description}}</p>
                     <p style="font-size: 10px">{{post.date}}</p>
 
-                    <button class="button button-like" onclick="likeFunction(this)" id="button-like">
-                      <i class="fa fa-heart"></i>
-                      <span >Like</span>
-                    </button>
+                    {% if isLikeable %}
+                        <button class="button button-like" onclick="likeFunction(this)" id="{{post.id}}">
+                          <i class="fa fa-heart"></i>
+                          <span >Like</span>
+                            <span id="{{post.id}}n"> {{nlike}}</span>
+                        </button>
+                    {% else %}
+                        <button class="button button-like liked" onclick="likeFunction(this)" id="{{post.id}}">
+                            <i class="fa fa-heart"></i>
+                            <span >Like</span>
+                            <span id="{{post.id}}n"> {{nlike}}</span>
+                        </button>
+                    {% endif %}
 
 
 
@@ -177,8 +188,16 @@
         x.classList.remove("liked");
       }else{
         x.classList.add("liked");
-
       }
+        $.ajax({
+            url: '../manage_like/'+x.id+"/",
+            data: {
+            },
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById(x.id+"n").innerText = data.nlikes;
+            }
+        });
     }
     
 </script>
