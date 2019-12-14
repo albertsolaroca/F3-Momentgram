@@ -31,6 +31,7 @@ def view_post(request, id=None):
             comment = request.POST.get('comment')
             createComment(request.user,post,comment)
             comments = getPostComments(post)
+            comments = [(x, getProfile(x.user).image) for x in comments]
             context ={
                 'username' : post.user.username,
                 'description' : post.description,
@@ -40,6 +41,7 @@ def view_post(request, id=None):
             }
             return redirect('view_post', id)
         comments = getPostComments(post)
+        comments = [(x, getProfile(x.user).image) for x in comments]
         context ={
             'username' : post.user.username,
             'description' : post.description,
@@ -143,7 +145,8 @@ def show_profile(request, username, index = 1):
          'fullName' : user.first_name + " " + user.last_name,
          'posts' : p.page(page),
          'maxPage' : [ x+1 for x in range(maxPage)],
-         'index' : index
+         'index' : index,
+         'image' : getProfile(user).image
     }
     return render(request, 'Momentgram/profile.html', context)
 
@@ -209,6 +212,27 @@ def manage_friend(request, username, index = 1):
     else:
         return HttpResponse("No such user")
 
+def manage_friends(request, username, index = 1):
+    user = getUser(username)
+    if user:
+        if(user.username == request.user.username):
+            yourProfile = True
+        else:
+            yourProfile = False
+            if(request.user in getFollowers(user)):
+                unfollow(request.user,user)
+                followed = False
+            else:
+                follow(request.user, user)
+                followed = True
+        context ={
+            'yourProfile' : yourProfile,
+            'followed' : followed,
+            'n_followers' : len(getFollowers(user)),
+        }
+        return JsonResponse(context)
+    else:
+        return JsonResponse()
 @login_required
 def manage_like(request, id):
     post = getPost(id)
@@ -234,7 +258,7 @@ def search_users(request, isProfile='0', searched ="", index = 1):
     if 'searched' in request.GET:
         searched = request.GET.get('searched')
     sorted = getUsersSorted(request.user, searched)
-    users = [x for x in sorted if x.username != request.user.username]
+    users = [(x, getProfile(x).image) for x in sorted if x.username != request.user.username]
     p = Paginator(users, 9)
     maxPage = p.num_pages
     page = index
@@ -258,7 +282,7 @@ def search_users(request, isProfile='0', searched ="", index = 1):
 def timeline(request, index = 1):
     if request.method == "GET":
         posts = getTimeline(request.user)
-        posts = [(post,getNumberOfLikes(post),isLikeable(request.user,post)) for post in posts]
+        posts = [(post,getNumberOfLikes(post),isLikeable(request.user,post),getProfile(post.user).image) for post in posts]
         p = Paginator(posts, 9)
         maxPage = p.num_pages
         context = {
@@ -279,7 +303,13 @@ def edit_profile(request):
         image = request.POST.get("image")
         updateUser(request.user, fname, lname, pword, bio, image)
         return redirect('show_profile', request.user.username)
-    return render(request, 'Momentgram/editProfile.html')
+    context = {
+        'firstname' : request.user.first_name,
+        'lastname' : request.user.last_name,
+        'bio' : getProfile(request.user).bio,
+        'image' : getProfile(request.user).image
+    }
+    return render(request, 'Momentgram/editProfile.html', context)
 
 @login_required
 def chat( request, username=""):
@@ -287,6 +317,7 @@ def chat( request, username=""):
         if( request.method == 'GET' ):
             user = getUser(username)
             messages = getChat(request.user, user)
+            messages = [(x, getProfile(x.sender).image) for x in messages]
             if(len(messages)>30):
                 start = len(messages) - 30
             else:
@@ -304,6 +335,7 @@ def chat( request, username=""):
             if message:
                 sendMessage(request.user,user,message)
             messages = getChat(request.user, user)
+            messages = [(x, getProfile(x.sender).image) for x in messages]
             if(len(messages)>30):
                 start = len(messages) - 30
             else:

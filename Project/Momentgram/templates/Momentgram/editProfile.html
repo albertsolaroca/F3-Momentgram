@@ -55,7 +55,7 @@
       <!-- left column -->
       <div class="col-md-3">
         <div class="text-center">
-          <img id="image" class="profile_image" src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Bearded_Man-17-512.png"/>
+          <img id="image" class="profile_image" src="/media/images/{{image}}/"/>
           <h6>Profile photo</h6>
       </div>
       </div>
@@ -64,7 +64,7 @@
       <div class="col-md-9 personal-info">         
         <h3>Personal info</h3>
         
-        <form class="form-horizontal"  method="post" >
+        <form class="form-horizontal" action="" method="post" >
             {% csrf_token %}
           <div class="form-group">
             <label class="col-lg-3 control-label">First name:</label>

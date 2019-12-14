@@ -130,13 +130,13 @@
 <div class="posts_placer row" style="padding: 10px 150px">
 
     {% if posts%}
-        {% for post, nlike, isLikeable in posts %}
+        {% for post, nlike, isLikeable, user_image in posts %}
         <div class="col-12" style="background-color: white; padding: 10px;">
             <div class="posts_placer row" style="padding: 10px 150px">
                 <div class="col-1" style=""></div>
                 <div class="container1 col-10" style="">
                     <p>
-                        <img style="width: 50px; border-radius: 100%;" src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg"/>
+                        <img style="width: 50px; border-radius: 100%;" src="/media/images/{{user_image}}"/>
                         <a href="{% url 'show_profile' post.user.username %}">{{ post.user.username }}</a>
                     </p>
                     <a href="{% url 'view_post' post.id %}">

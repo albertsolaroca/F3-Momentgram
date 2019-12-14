@@ -55,6 +55,13 @@ def getUser(username):
     else:
         return None
 
+def getProfile(user):
+    if Profile.objects.filter(user=user):
+        return Profile.objects.filter(user=user)[0]
+    else:
+        return None
+
+
 def getPost(id):
     if Post.objects.filter(id=id):
         return Post.objects.filter(id=id)[0]
@@ -73,7 +80,7 @@ def getTimeline(username):
 
 
 def sendMessage(sender,reciever,message):
-    Message.objects.create(sender=sender, reciever = reciever, text = message)
+    Message.objects.create(sender=sender, receiver = reciever, text = message)
     return True
 
 def getChat(user1, user2):
@@ -152,7 +159,9 @@ def getNumberOfLikes(post):
 def createComment(user,post,comment):
     Comment.objects.create(user=user,post=post,comment=comment)
     return True
+
 def updateUser(user, firstname=None, lastname=None, password=None, bio=None, image=None):
+    profile = getProfile(user)
     if firstname:
         user.first_name = firstname
     if lastname:
@@ -160,7 +169,8 @@ def updateUser(user, firstname=None, lastname=None, password=None, bio=None, ima
     if password:
         user.set_password(password)
     if bio:
-        user.bio = bio
+        profile.bio = bio
     if image:
-        user.image = image
+        profile.image = image
     user.save()
+    profile.save()
