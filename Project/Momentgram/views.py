@@ -212,23 +212,18 @@ def manage_friend(request, username, index = 1):
     else:
         return HttpResponse("No such user")
 
-def manage_friends(request, username, index = 1):
+def manage_friends(request, username):
     user = getUser(username)
     if user:
-        if(user.username == request.user.username):
-            yourProfile = True
+        if request.user in getFollowers(user):
+            unfollow(request.user,user)
+            followed = False
         else:
-            yourProfile = False
-            if(request.user in getFollowers(user)):
-                unfollow(request.user,user)
-                followed = False
-            else:
-                follow(request.user, user)
-                followed = True
+            follow(request.user, user)
+            followed = True
         context ={
-            'yourProfile' : yourProfile,
             'followed' : followed,
-            'n_followers' : len(getFollowers(user)),
+            'n_followers' : len(getFollowers(user))
         }
         return JsonResponse(context)
     else:
