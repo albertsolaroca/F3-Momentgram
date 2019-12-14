@@ -38,8 +38,9 @@ def view_post(request, id=None):
                 'image_name' : post.image,
                 'date' : post.date,
                 'id' : post.id,
-                'comments' : comments
-
+                'comments' : comments,
+                'nlike' : getNumberOfLikes(post),
+                'isLikeable' : isLikeable(request.user, post)
             }
             return redirect('view_post', id)
         comments = getPostComments(post)
@@ -50,7 +51,9 @@ def view_post(request, id=None):
             'image_name' : post.image,
             'date' : post.date,
             'id' : post.id,
-            'comments' : comments
+            'comments' : comments,
+            'nlike' : getNumberOfLikes(post),
+            'isLikeable' : isLikeable(request.user, post)
         }
         return render(request, 'Momentgram/post_visualization.html', context)
     return HttpResponse("No such post")
