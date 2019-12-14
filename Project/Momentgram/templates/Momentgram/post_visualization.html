@@ -32,11 +32,11 @@
                             <h2 class="page-header">Comments</h2>
                             <section class="comment-list">
                                 <!-- First Comment -->
-                                {% for comment in comments %}
+                                {% for comment, image in comments %}
                                 <article class="row">
                                     <div class="col-md-2 col-sm-2 hidden-xs">
                                         <figure class="thumbnail">
-                                            <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+                                            <img class="img-responsive" src="/media/images/{{image}}/" />
                                         </figure>
                                     </div>
                                     <div class="col-md-10 col-sm-10">
@@ -49,6 +49,7 @@
                                                 <div class="comment-post">
                                                     <p>
                                                         {{comment.comment}}
+
                                                     </p>
                                                 </div>
                                             </div>

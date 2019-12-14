@@ -55,6 +55,13 @@ def getUser(username):
     else:
         return None
 
+def getProfile(user):
+    if Profile.objects.filter(user=user):
+        return Profile.objects.filter(user=user)[0]
+    else:
+        return None
+
+
 def getPost(id):
     if Post.objects.filter(id=id):
         return Post.objects.filter(id=id)[0]
@@ -73,7 +80,7 @@ def getTimeline(username):
 
 
 def sendMessage(sender,reciever,message):
-    Message.objects.create(sender=sender, reciever = reciever, text = message)
+    Message.objects.create(sender=sender, receiver = reciever, text = message)
     return True
 
 def getChat(user1, user2):
@@ -81,7 +88,7 @@ def getChat(user1, user2):
 
 def getUsersSorted(user, pattern):
     toReturn = []
-    users = User.objects.filter(username__icontains=pattern)
+    users = User.objects.filter(Q(username__icontains=pattern)|Q(first_name__icontains=pattern))
     followers = getFollowers(user)
     following = getFollowing(user)
 
@@ -144,13 +151,26 @@ def isLikeable(user,post):
 
 #Given a certain post returns the number of likes
 def getNumberOfLikes(post):
-    if Like.object.filter(post=post).exists():
-        return len(Like.object.filter(post=post))
+    if Like.objects.filter(post=post).exists():
+        return len(Like.objects.filter(post=post))
     else:
         return 0
-      
 #Creates a comment linked to a user and a post
 def createComment(user,post,comment):
     Comment.objects.create(user=user,post=post,comment=comment)
     return True
 
+def updateUser(user, firstname=None, lastname=None, password=None, bio=None, image=None):
+    profile = getProfile(user)
+    if firstname:
+        user.first_name = firstname
+    if lastname:
+        user.last_name = lastname
+    if password:
+        user.set_password(password)
+    if bio:
+        profile.bio = bio
+    if image:
+        profile.image = image
+    user.save()
+    profile.save()
