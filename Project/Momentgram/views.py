@@ -37,7 +37,9 @@ def view_post(request, id=None):
                 'description' : post.description,
                 'image_name' : post.image,
                 'date' : post.date,
+                'id' : post.id,
                 'comments' : comments
+
             }
             return redirect('view_post', id)
         comments = getPostComments(post)
@@ -47,6 +49,7 @@ def view_post(request, id=None):
             'description' : post.description,
             'image_name' : post.image,
             'date' : post.date,
+            'id' : post.id,
             'comments' : comments
         }
         return render(request, 'Momentgram/post_visualization.html', context)
