@@ -30,12 +30,21 @@
         <input type="text" v-model="search" placeholder="Search friend to chat..." class="searcher"/>
     </div>
     <div class="row" style="overflow-y: auto; width: 100%">
+
         <div class="col-4" style="margin-top: 20px; padding:10px 0;" id="v-for-resources" v-for="dict in filteredList">
+            {% if isProfile %}
             <div class="card">
-                <img src="/media/((dict.image))"/>
-                <h1><ahref>((dict.name))</ahref></h1>
-                <p class="title"><a>((dict.username))</a></p>
+                <img src="/media/((dict.image))/" style="width:100%">
+                <h1><a :href="urlProf + dict.name">((dict.name))</a></h1>
+                <p class="title"><a :href="urlProf + dict.name"">((dict.username))</a></p>
             </div>
+            {% else %}
+            <div class="card">
+                <img src="/media/((dict.image))/" style="width:100%">
+                <h1><a :href="urlChat + dict.name">((dict.name))</a></h1>
+                <p class="title"><a :href="urlChat + dict.name">((dict.username))</a></p>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -46,6 +55,8 @@
         data: {
             getUsers: [],
             search: '',
+            urlProfile:'../profile=',
+            urlChat:'../profile=',
         },
         mounted() {
             let self = this;
