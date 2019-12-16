@@ -36,7 +36,6 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             padding: 5px;
-            width: 150px;
         }
 
         img:hover {
@@ -136,12 +135,14 @@
                 <div class="col-1" style=""></div>
                 <div class="container1 col-10" style="">
                     <p>
-                        <img style="width: 50px; border-radius: 100%;" src="/media/{{user_image}}"/>
+                        <img style="width: 50px; border-radius: 10px" src="/media/{{user_image}}"/>
                         <a href="{% url 'show_profile' post.user.username %}">{{ post.user.username }}</a>
                     </p>
-                    <a href="{% url 'view_post' post.id %}">
-                    <img style="width: 100%; border-radius: 8px;" src="/media/{{post.image}}"/>
-                    </a>
+                    <div style="text-align: center">
+                        <a href="{% url 'view_post' post.id %}">
+                            <img style="max-height: 500px; border-radius: 8px;" src="/media/{{post.image}}"/>
+                        </a>
+                    </div>
                     <p>{{post.description}}</p>
                     <p style="font-size: 10px">{{post.date}}</p>
 

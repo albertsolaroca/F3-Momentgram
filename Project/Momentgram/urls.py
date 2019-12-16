@@ -26,7 +26,9 @@ urlpatterns = [
     url(r'^timeline/index=(?P<index>.*)/$', views.timeline, name='full_timeline'),
     url(r'^timeline/$', views.timeline, name='timeline'),
     url(r'^chat/(?P<username>.*)$', views.chat, name='chat'),
-    url(r'^edit_profile/$', views.edit_profile, name='editProfile')
+    url(r'^edit_profile/$', views.edit_profile, name='editProfile'),
+    url(r'^get_users/(?P<username>.*)/$', views.get_users, name='get_users'),
+
 
 
     #path('admin/', admin.site.urls),

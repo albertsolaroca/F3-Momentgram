@@ -275,8 +275,18 @@ def search_users(request, isProfile='0', searched ="", index = 1):
             'maxPage' : [ x+1 for x in range(maxPage)],
             'searched' : searched
         }
-
     return render(request, 'Momentgram/searchUsers.html', context)
+
+@login_required
+def get_users(request,username):
+    sorted = [(x.username,x.get_full_name()) for x in getUsersSorted(request.user, '') if x.username != request.user.username]
+    dicts = []
+    for element in sorted:
+        dicts.append({"username":element[0],"name":element[1],"image":getProfile(getUser(element[0])).image.name})
+    response = {
+        'users': dicts
+    }
+    return JsonResponse(response)
 
 @login_required
 def timeline(request, index = 1):

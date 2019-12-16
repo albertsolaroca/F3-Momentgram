@@ -6,9 +6,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <div>
      <!--<div class="row" style="padding: 10px 150px">
         <div class="col-8" style="background-color: white; padding: 10px;">
@@ -21,8 +18,8 @@
         </div>
     </div>-->
     <div class="row" style="padding: 10px 150px">
-        <div class="col-6" style="background-color: white; padding: 10px;">
-            <img id="image" style=" max-width: 100%;" src="/media/{{image_name}}/"/>
+        <div class="col-6" style="background-color: white; padding: 10px; text-align: center;">
+            <img id="image" style=" max-width: 100%; max-height: 400px;" src="/media/{{image_name}}/"/>
             {% if isLikeable %}
             <button class="button button-like" onclick="likeFunction(this)" id="{{id}}">
                 <i class="fa fa-heart"></i>
@@ -37,7 +34,7 @@
             </button>
             {% endif %}
         </div>
-        <div class="col-6" style="background-color: white; padding: 20px;">
+        <div class="col-6" style="background-color: white; padding: 20px; border-left: 3px solid whitesmoke;">
             <p id="userName" style="font-size: 14px; font-weight: bold">{{username}}</p>
             <p id="comment" style="font-size: 12px">{{description}}</p>
             <p id="date" style="font-size: 10px">{{date}}</p>
@@ -55,7 +52,7 @@
                                             <img class="img-responsive" src="/media/{{image}}/" />
                                         </figure>
                                     </div>
-                                    <div class="col-md-10 col-sm-10">
+                                    <div>
                                         <div class="panel panel-default arrow left">
                                             <div class="panel-body">
                                                 <header class="text-left">
@@ -63,10 +60,7 @@
                                                     <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> {{comment.date}}</time>
                                                 </header>
                                                 <div class="comment-post">
-                                                    <p>
-                                                        {{comment.comment}}
-
-                                                    </p>
+                                                    <p>{{comment.comment}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -261,7 +255,9 @@
     .liked:hover span {
         color: #fefefe;
     }
-
+    .img-responsive {
+        height:20px;
+    }
 
 </style>
 <script>
