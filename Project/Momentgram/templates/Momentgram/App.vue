@@ -108,5 +108,9 @@
     }
     .search-wrapper {
         padding: 5px;
+        margin-left: auto;
+        width: 33%;
+        margin-top: 10px;
+        margin-right: auto;
     }
 </style>

@@ -16,32 +16,36 @@
         color: grey;
         font-size: 18px;
     }
+    .search-wrapper {
+        padding: 5px;
+        margin-left: auto;
+        width: 25%;
+        margin-top: 10px;
+        margin-right: auto;
+    }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <div id="app">
     <div class="search-wrapper">
-        <input type="text" v-model="search" placeholder="Search method..." class="searcher"/>
-        <div>{{search}}</div>
+        <input type="text" v-model="search" placeholder="Search friend to chat..." class="searcher"/>
     </div>
-    <div class="row" style="padding-left:30px; padding-right:30px;">
-        <div id="v-for-resources" v-for="dict in filteredList">
-            {{dict.name}}
-            <div class="login-container col-4" style="margin-top: 20px; padding:10px;">
-                <div class="card">
-                    <h1><a></a></h1>
-                    <p class="title"><a></a></p>
-                </div>
+    <div class="row" style="overflow-y: auto; width: 100%">
+        <div class="col-4" style="margin-top: 20px; padding:10px 0;" id="v-for-resources" v-for="dict in filteredList">
+            <div class="card">
+                <img src="/media/((dict.image))"/>
+                <h1><ahref>((dict.name))</ahref></h1>
+                <p class="title"><a>((dict.username))</a></p>
             </div>
-
         </div>
     </div>
 </div>
 <script>
     let app = new Vue({
         el: '#app',
+        delimiters: ["((","))"],
         data: {
             getUsers: [],
-            search: 'asdf',
+            search: '',
         },
         mounted() {
             let self = this;
@@ -59,10 +63,9 @@
 
         computed: {
             filteredList() {
-                return this.getUsers;
-                //.filter(user => {
-            //     return user.name.includes(this.search.toLowerCase())
-            // })
+                return this.getUsers.filter(user => {
+                    return user.name.toLowerCase().includes(this.search.toLowerCase()) || user.username.toLowerCase().includes(this.search.toLowerCase())
+                })
             }
         }
     });
