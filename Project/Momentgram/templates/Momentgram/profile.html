@@ -17,9 +17,8 @@
             color: #ffffff;
         }
         .profile_image{
-            width:150px;
             height:150px;
-            border-radius: 50%;
+            border-radius: 8px;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -36,7 +35,6 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             padding: 5px;
-            width: 150px;
         }
 
         img:hover {
@@ -90,9 +88,9 @@
     {% if posts%}
         {% for post in posts %}
         <div class="col-4" style="background-color: white; padding: 10px;">
-            <div class="container1">
-                <a href="{% url 'view_post' post.id %}">
-                    <img  style="width: 100%; max-height: 500px; border-radius: 8px;" src="/media/{{post.image}}/" href="{% url 'view_post' post.id %}"/>
+            <div class="container1" style="text-align: center">
+                <a href="{% url 'view_post' post.id %}" >
+                    <img  style="height: 200px; border-radius: 8px; padding-left:auto; padding-right: auto;" src="/media/{{post.image}}/" href="{% url 'view_post' post.id %}"/>
                 </a>
             </div>
         </div>

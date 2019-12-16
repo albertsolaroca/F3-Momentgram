@@ -26,23 +26,29 @@
 </style>
 <script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <div id="app">
+    {% if isProfile %}
+    <div class="search-wrapper">
+        <input type="text" v-model="search" placeholder="Search friend to see profile..." class="searcher"/>
+    </div>
+    {% else %}
     <div class="search-wrapper">
         <input type="text" v-model="search" placeholder="Search friend to chat..." class="searcher"/>
     </div>
+    {% endif %}
     <div class="row" style="overflow-y: auto; width: 100%">
 
         <div class="col-4" style="margin-top: 20px; padding:10px 0;" id="v-for-resources" v-for="dict in filteredList">
             {% if isProfile %}
             <div class="card">
-                <img :src="media + dict.image" style="width:100%">
-                <h1><a :href="urlProf + dict.username">((dict.name))</a></h1>
-                <p class="title"><a :href="urlProf + dict.username">((dict.username))</a></p>
+                <img :src="urlMedia(dict.image)" style="width:100%">
+                <h1><a :href="urlProfile(dict.username)">((dict.name))</a></h1>
+                <p class="title"><a :href="urlProfile(dict.username)">((dict.username))</a></p>
             </div>
             {% else %}
             <div class="card">
-                <img :src="media + dict.image" style="width:100%">
-                <h1><a :href="urlChat + dict.username">((dict.name))</a></h1>
-                <p class="title"><a :href="urlChat + dict.username">((dict.username))</a></p>
+                <img :src="urlMedia(dict.image)" style="width:100%">
+                <h1><a :href="urlChat(dict.username)">((dict.name))</a></h1>
+                <p class="title"><a :href="urlChat(dict.username)">((dict.username))</a></p>
             </div>
             {% endif %}
         </div>
@@ -55,8 +61,6 @@
         data: {
             getUsers: [],
             search: '',
-            urlProfile:'../profile=',
-            urlChat:'../chat/',
             media: '/media/'
         },
         mounted() {
@@ -79,6 +83,17 @@
                     return user.name.toLowerCase().includes(this.search.toLowerCase()) || user.username.toLowerCase().includes(this.search.toLowerCase())
                 })
             }
+        },
+        methods :{
+            urlProfile(id) {
+                return '../profile='+id
+            },
+            urlChat(id) {
+                return '../chat/'+id
+            },
+            urlMedia(id) {
+                return '/media/'+id
+            },
         }
     });
 </script>
