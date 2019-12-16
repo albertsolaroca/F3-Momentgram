@@ -1,6 +1,10 @@
 from .models import Post, Profile, Follow, Message, Comment, Like
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.core.files import File
+import os
+from urllib import request
+from django.core.files.temp import NamedTemporaryFile
 
 
 def createPost(description, owner, image):
@@ -41,6 +45,14 @@ def createUser(username, password, mail, first= None, last=None):
         if last:
             user.last_name = last
         user.save()
+        profile = getProfile(user)
+        image_url = "https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg"
+        img_temp = NamedTemporaryFile()
+        img_temp.write(request.urlopen(image_url).read())
+        img_temp.flush()
+
+        profile.image.save("inici.jpg", File(img_temp))
+        profile.save()
         return user
     else:
         return None

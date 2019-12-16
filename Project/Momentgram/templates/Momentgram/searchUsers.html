@@ -24,13 +24,13 @@
         <div class="login-container" style="margin-top: 20px; padding:10px;">
             {% if isProfile %}
             <div class="card">
-                <img src="/media/images/{{image}}/" alt="John" style="width:100%">
+                <img src="/media/{{image}}/" alt="John" style="width:100%">
                 <h1><a href="{% url 'show_profile' user.username %}">{{user.first_name}} {{user.last_name}}</a></h1>
                 <p class="title"><a href="{% url 'show_profile' user.username %}">{{user.username}}</a></p>
             </div>
             {% else %}
             <div class="card">
-                <img src="/media/images/{{image}}" alt="John" style="width:100%">
+                <img src="/media/{{image}}" alt="John" style="width:100%">
                 <h1><a href="{% url 'chat' user.username %}">{{user.first_name}} {{user.last_name}}</a></h1>
                 <p class="title"><a href="{% url 'chat' user.username %}">{{user.username}}</a></p>
             </div>

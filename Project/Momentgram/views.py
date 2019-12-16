@@ -110,7 +110,6 @@ def log_out(request):
 @login_required
 def publish_post(request):
     if request.method == 'POST':
-        image_name = request.FILES['image'].name
         image = request.FILES['image']
         description = request.POST.get('description')
         post = createPost(description, request.user, image)
@@ -301,8 +300,11 @@ def edit_profile(request):
         lname = request.POST.get("lastname")
         bio = request.POST.get("bio")
         pword = request.POST.get("password")
-        image = request.POST.get("image")
-        updateUser(request.user, fname, lname, pword, bio, image)
+        if 'image' in request.FILES:
+            image = request.FILES['image']
+            updateUser(request.user, fname, lname, pword, bio, image)
+        else:
+            updateUser(request.user, fname, lname, pword, bio)
         return redirect('show_profile', request.user.username)
     context = {
         'firstname' : request.user.first_name,
