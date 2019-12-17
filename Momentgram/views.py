@@ -277,7 +277,7 @@ def search_users(request, isProfile='0', searched ="", index = 1):
         context = {
             'users' : p.page(page),
             'maxPage' : [ x+1 for x in range(maxPage)],
-            'searched' : searched
+            'searched' : searched,
         }
     return render(request, 'Momentgram/searchUsers.html', context)
 
