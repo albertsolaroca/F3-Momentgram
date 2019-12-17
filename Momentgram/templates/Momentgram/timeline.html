@@ -136,12 +136,12 @@
                 <div class="col-1" style=""></div>
                 <div class="container1 col-10" style="">
                     <p>
-                        <img style="width: 50px; border-radius: 10px" src="{% cloudinary user_image %}"/>
+                        {% cloudinary user_image width=50 %}
                         <a href="{% url 'show_profile' post.user.username %}">{{ post.user.username }}</a>
                     </p>
                     <div style="text-align: center">
                         <a href="{% url 'view_post' post.id %}">
-                            <img style="max-height: 500px; border-radius: 8px;" src="{% cloudinary post.image %}"/>
+                            {% cloudinary post.image height=500 style="fill" %}
                         </a>
                     </div>
                     <p>{{post.description}}</p>
