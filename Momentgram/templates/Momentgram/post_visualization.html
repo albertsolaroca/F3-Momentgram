@@ -1,7 +1,6 @@
 {% extends 'Momentgram/base.html' %}
 {% block content %}
-
-{% load static %}
+{% load cloudinary %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -19,7 +18,7 @@
     </div>-->
     <div class="row" style="padding: 10px 150px">
         <div class="col-6" style="background-color: white; padding: 10px; text-align: center;">
-            <img id="image" style=" max-width: 100%; max-height: 400px;" src="/media/{{image_name}}/"/>
+            <img id="image" style=" max-width: 100%; max-height: 400px;" src="{% cloudinary image_name %}/"/>
             {% if isLikeable %}
             <button class="button button-like" onclick="likeFunction(this)" id="{{id}}">
                 <i class="fa fa-heart"></i>
@@ -49,7 +48,7 @@
                                 <article class="row">
                                     <div class="col-md-2 col-sm-2 hidden-xs">
                                         <figure class="thumbnail">
-                                            <img class="img-responsive" src="/media/{{image}}/" />
+                                            <img class="img-responsive" src="{% cloudinary image %}/" />
                                         </figure>
                                     </div>
                                     <div>

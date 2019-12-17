@@ -38,6 +38,7 @@
     <div class="row" style="overflow-y: auto; width: 100%">
 
         <div class="col-4" style="margin-top: 20px; padding:10px 0;" id="v-for-resources" v-for="dict in filteredList">
+            {% load cloudinary %}
             {% if isProfile %}
             <div class="card">
                 <img :src="urlMedia(dict.image)" style="width:100%">
@@ -92,7 +93,7 @@
                 return '../chat/'+id
             },
             urlMedia(id) {
-                return '/media/'+id
+                return '{% cloudinary '+id+' %}'
             },
         }
     });
