@@ -53,6 +53,7 @@ def createUser(username, password, mail, first= None, last=None):
 
         profile.image.save("inici.jpg", File(img_temp))
         profile.save()
+
         return user
     else:
         return None
@@ -101,6 +102,7 @@ def getChat(user1, user2):
 def getUsersSorted(user, pattern):
     toReturn = []
     users = User.objects.filter(Q(username__icontains=pattern)|Q(first_name__icontains=pattern))
+
     followers = getFollowers(user)
     following = getFollowing(user)
 
@@ -186,3 +188,4 @@ def updateUser(user, firstname=None, lastname=None, password=None, bio=None, ima
         profile.image = image
     user.save()
     profile.save()
+

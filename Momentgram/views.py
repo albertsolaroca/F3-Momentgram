@@ -14,6 +14,7 @@ from .utils import *
 from django.http import JsonResponse
 
 
+
 def index(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("timeline"))
@@ -45,6 +46,7 @@ def view_post(request, id=None):
             return redirect('view_post', id)
         comments = getPostComments(post)
         comments = [(x, getProfile(x.user).image) for x in comments]
+
         context ={
             'username' : post.user.username,
             'description' : post.description,
@@ -54,6 +56,7 @@ def view_post(request, id=None):
             'comments' : comments,
             'nlike' : getNumberOfLikes(post),
             'isLikeable' : isLikeable(request.user, post)
+
         }
         return render(request, 'Momentgram/post_visualization.html', context)
     return HttpResponse("No such post")
@@ -152,6 +155,7 @@ def show_profile(request, username, index = 1):
          'maxPage' : [ x+1 for x in range(maxPage)],
          'index' : index,
          'image' : getProfile(user).image
+
     }
     return render(request, 'Momentgram/profile.html', context)
 
@@ -360,7 +364,4 @@ def chat( request, username=""):
             return redirect( 'chat', user.username)
     else:
         return HttpResponse("No such user")
-
-
-
 
