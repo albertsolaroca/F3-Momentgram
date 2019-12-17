@@ -5,7 +5,7 @@
 <style>
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        max-width: 300px;
+        max-width: 200px;
         margin: auto;
         text-align: center;
         font-family: arial;
@@ -16,82 +16,67 @@
         color: grey;
         font-size: 18px;
     }
-    .search-wrapper {
-        padding: 5px;
-        margin-left: auto;
-        width: 25%;
-        margin-top: 10px;
-        margin-right: auto;
-    }
 </style>
-<script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<div id="app">
-    {% if isProfile %}
-    <div class="search-wrapper">
-        <input type="text" v-model="search" placeholder="Search friend to see profile..." class="searcher"/>
-    </div>
-    {% else %}
-    <div class="search-wrapper">
-        <input type="text" v-model="search" placeholder="Search friend to chat..." class="searcher"/>
-    </div>
-    {% endif %}
-    <div class="row" style="overflow-y: auto; width: 100%">
-
-        <div class="col-4" style="margin-top: 20px; padding:10px 0;" id="v-for-resources" v-for="dict in filteredList">
-            {% load cloudinary %}
+<div >    
+    <div style="margin-bottom: 10px;">
+  	{% if users%}
+     {% for user in users %}
+        <div class="login-container" style="margin-top: 20px; padding:10px;">
             {% if isProfile %}
             <div class="card">
-                <h1><a :href="urlProfile(dict.username)">((dict.name))</a></h1>
-                <p class="title"><a :href="urlProfile(dict.username)">((dict.username))</a></p>
+                <img src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg" alt="John" style="width:100%">
+                <h1><a href="{% url 'show_profile' user.username %}">{{user.first_name}} {{user.last_name}}</a></h1>
+                <p class="title"><a href="{% url 'show_profile' user.username %}">{{user.username}}</a></p>
             </div>
             {% else %}
             <div class="card">
-                <h1><a :href="urlChat(dict.username)">((dict.name))</a></h1>
-                <p class="title"><a :href="urlChat(dict.username)">((dict.username))</a></p>
+                <img src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg" alt="John" style="width:100%">
+                <h1><a href="{% url 'chat' user.username %}">{{user.first_name}} {{user.last_name}}</a></h1>
+                <p class="title"><a href="{% url 'chat' user.username %}">{{user.username}}</a></p>
             </div>
             {% endif %}
+            <!--<div class="container1" >
+                {% if isProfile %}
+                <div style="border:2px solid #3897f0; border-radius: 3px; max-width: 200px; display: block; margin-left: auto; margin-right: auto;" >
+                    <img style="width: 50px; border-radius: 100%; margin: auto; display: block; margin-left: auto; margin-right: auto;"  src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg">
+                    <a href="{% url 'show_profile' user %}" style="text-align: center"><p>{{user.name}} </p></a>
+                    <a href="{% url 'show_profile' user %}" style="text-align: center"><p>{{user.username}} </p></a>
+                </div>
+                {% else %}
+                <div style="border:2px solid #3897f0; border-radius: 3px; max-width: 200px; display: block; margin-left: auto; margin-right: auto;">
+                    <img style="width: 50px; border-radius: 100%; display: block; margin-left: auto; margin-right: auto;" src="https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg">
+                    <a href="{% url 'chat' user %}" style="text-align: center"><p>{{user.name}} </p></a>
+                    <a href="{% url 'chat' user %}" style="text-align: center"><p>{{user.username}} </p></a>
+                </div>
+                {% endif %}
+            </div>-->
+        </div>
+      {% endfor %}
+    {% else %}
+
+
+        <div class="login-container"  style="margin-top: 20px;">
+            <h1 style="margin-top: 2%; margin-left: 20%; color: rgba(0, 0, 0, 0.6); font-size: 30px;">No matched users.</h1>
+        </div>
+      {% endif %}
+
+     </div>
+    
+    <div class="center">
+        <div class="pagination">
+        {% for index in maxPage %}
+            {% if isProfile %}
+                <a href="{% url 'search_users_complete' 1 searched index %}">{{index}}</a>
+            {% else %}
+                <a href="{% url 'search_users_complete' 0 searched index %}">{{index}}</a>
+            {% endif %}
+        {% endfor %}
         </div>
     </div>
+    
+
 </div>
 <script>
-    let app = new Vue({
-        el: '#app',
-        delimiters: ["((","))"],
-        data: {
-            getUsers: [],
-            search: '',
-            media: '/media/'
-        },
-        mounted() {
-            let self = this;
-            $.ajax({
-                url: '../get_users/jbareaco8/',
-                method: 'GET',
-                success: function (data) {
-                    self.getUsers = data.users;
-                },
-                error: function (error) {
-                    console.log("ERROR");
-                }
-            });
-        },
-
-        computed: {
-            filteredList() {
-                return this.getUsers.filter(user => {
-                    return user.name.toLowerCase().includes(this.search.toLowerCase()) || user.username.toLowerCase().includes(this.search.toLowerCase())
-                })
-            }
-        },
-        methods :{
-            urlProfile(id) {
-                return '../profile='+id
-            },
-            urlChat(id) {
-                return '../chat/'+id
-            },
-
-        }
-    });
+ 
 </script>
 {% endblock %}
