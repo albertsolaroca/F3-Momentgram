@@ -121,7 +121,7 @@
                 {% else %}
                 <div class="messageContainer">
                     <div class="receivedMessage">
-                        {% cloudinary image width=50 crop="fill" %}
+                        <img style="width: 50px; border-radius: 2px;" src="/media/{{image}}">
                         {{message.text}}
                     </div>
                 </div>

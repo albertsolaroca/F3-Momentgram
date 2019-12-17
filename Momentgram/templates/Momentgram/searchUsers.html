@@ -41,13 +41,11 @@
             {% load cloudinary %}
             {% if isProfile %}
             <div class="card">
-                <img :src="urlMedia(dict.image)" style="width:100%">
                 <h1><a :href="urlProfile(dict.username)">((dict.name))</a></h1>
                 <p class="title"><a :href="urlProfile(dict.username)">((dict.username))</a></p>
             </div>
             {% else %}
             <div class="card">
-                <img :src="urlMedia(dict.image)" style="width:100%">
                 <h1><a :href="urlChat(dict.username)">((dict.name))</a></h1>
                 <p class="title"><a :href="urlChat(dict.username)">((dict.username))</a></p>
             </div>
