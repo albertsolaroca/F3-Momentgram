@@ -49,7 +49,7 @@
 {% load cloudinary %}
 <div class="row" style="padding: 10px 150px">
     <div class="col-4" style="background-color: white; padding: 10px;">
-        <img id="image" class="profile_image" src="{% cloudinary image %}/"/>
+        {% cloudinary image %}
     </div>
     <div class="col-2" style="background-color: white; padding: 20px">
         <p id="fullName" style="font-size: 14px; font-weight: bold">{{ fullName }}</p>
