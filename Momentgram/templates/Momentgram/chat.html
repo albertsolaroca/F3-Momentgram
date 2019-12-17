@@ -105,6 +105,7 @@
 {% block content %}
 
 {% load static %}
+    {% load cloudinary %}
 <div>
     <div class="chat">
         <div class="head">
@@ -121,7 +122,7 @@
                 {% else %}
                 <div class="messageContainer">
                     <div class="receivedMessage">
-                        <img style="width: 50px; border-radius: 2px;" src="/media/{{image}}">
+                        {% cloudinary image width=10 crop="fill" %}
                         {{message.text}}
                     </div>
                 </div>
