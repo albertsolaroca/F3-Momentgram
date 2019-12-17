@@ -47,11 +47,8 @@ def createUser(username, password, mail, first= None, last=None):
         user.save()
         profile = getProfile(user)
         image_url = "https://st2.depositphotos.com/1003591/7970/i/950/depositphotos_79702338-stock-photo-potato-with-funny-face.jpg"
-        img_temp = NamedTemporaryFile()
-        img_temp.write(request.urlopen(image_url).read())
-        img_temp.flush()
 
-        profile.image.save("inici.jpg", File(img_temp))
+        profile.image = "https://res.cloudinary.com/patatagram/image/upload/v1576591844/dhja8imdurvshqdtwdzs.jpg"
         profile.save()
 
         return user
